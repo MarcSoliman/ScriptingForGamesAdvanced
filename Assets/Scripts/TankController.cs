@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour
 {
-    [SerializeField] float _moveSpeed = .25f;
+    [SerializeField] float _maxSpeed = .25f;
+
+    public float MaxSpeed
+    {
+        get => _maxSpeed;
+        set => _maxSpeed = value;
+    }
     [SerializeField] float _turnSpeed = 2f;
 
     Rigidbody _rb = null;
@@ -23,7 +29,7 @@ public class TankController : MonoBehaviour
     public void MoveTank()
     {
         // calculate the move amount
-        float moveAmountThisFrame = Input.GetAxis("Vertical") * _moveSpeed;
+        float moveAmountThisFrame = Input.GetAxis("Vertical") * _maxSpeed;
         // create a vector from amount and direction
         Vector3 moveOffset = transform.forward * moveAmountThisFrame;
         // apply vector to the rigidbody
