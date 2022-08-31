@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -729,6 +729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreasureIncrease (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5311270744783808073, guid: 1f6e371ed9ce04defaab981a27bb5ffd, type: 3}
+      propertyPath: _collectParticles
+      value: 
+      objectReference: {fileID: 1309825287306229188, guid: 24647eb427f478444bff5a3cb4e8b26d, type: 3}
     - target: {fileID: 5567580785440005008, guid: 1f6e371ed9ce04defaab981a27bb5ffd, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -1626,6 +1630,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1171579784595664013, guid: 610b407aa06d845c4ab2fd1f5029b01d, type: 3}
+      propertyPath: _impactParticles
+      value: 
+      objectReference: {fileID: 1309825287306229188, guid: 5d648094abface6438fc2a38ccb21e43, type: 3}
     - target: {fileID: 1171579784595664055, guid: 610b407aa06d845c4ab2fd1f5029b01d, type: 3}
       propertyPath: m_Name
       value: Enemy
