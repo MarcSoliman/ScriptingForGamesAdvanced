@@ -718,6 +718,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &633938609 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3713257564457975025, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
+  m_PrefabInstance: {fileID: 2923648690034535656}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &636368244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1509,7 +1514,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2923648690715434136, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
   m_PrefabInstance: {fileID: 2923648690034535656}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2096153069
+--- !u!114 &2096153070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1518,10 +1523,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2096153063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3d19e5037cc423db7d46bea1f71ee1, type: 3}
+  m_Script: {fileID: 11500000, guid: e9187ab67a258084dbb1cdf7987d0361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _treasureUI: {fileID: 124412457}
+  _projectile: {fileID: 1384623399582707917, guid: d7afa73818f10c140b5a82f1ea769275, type: 3}
+  _projectileSpawner: {fileID: 633938609}
+  _forceFactor: 10
 --- !u!1001 &1027094154405731385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1704,6 +1711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2096153069, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
+      propertyPath: _treasureUI
+      value: 
+      objectReference: {fileID: 124412457}
     - target: {fileID: 2923648690715434136, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
       propertyPath: m_Name
       value: Tank
@@ -1751,6 +1762,10 @@ PrefabInstance:
     - target: {fileID: 2923648690715434138, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713257564457975025, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.046
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9a35ff67693d486d8b1a3e49e0ec899, type: 3}
