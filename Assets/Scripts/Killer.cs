@@ -6,6 +6,8 @@ public class Killer : Enemy
 {
     protected override void PlayerImpact(Player player)
     {
-        player.Kill();
+        if (player.IsInvincible) return;
+        
+        player.GetComponent<Health>().Kill();
     }
 }

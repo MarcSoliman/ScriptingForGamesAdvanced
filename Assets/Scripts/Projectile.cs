@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
     [SerializeField] private float _damage = 50;
 
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private ParticleSystem _impactParticle;
 
     [SerializeField] private AudioClip _shootAudio;
     [SerializeField] private AudioClip _impactAudio;

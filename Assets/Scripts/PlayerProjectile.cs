@@ -8,6 +8,7 @@ public class PlayerProjectile : MonoBehaviour
 
     [SerializeField] private Transform _projectileSpawner;
     [SerializeField] private float _forceFactor = 10;
+    [SerializeField] private ParticleSystem _smokeParticles;
 
 
     void Update()
@@ -21,6 +22,7 @@ public class PlayerProjectile : MonoBehaviour
     private void ShootProjectile()
     {
         var instancedProjectile = Instantiate(_projectile, _projectileSpawner.position, Quaternion.identity);
+        _smokeParticles.Play();
         instancedProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * _forceFactor, ForceMode.Impulse);
     }
 }

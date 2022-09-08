@@ -30,8 +30,9 @@ public class Enemy : MonoBehaviour
 
     protected virtual void PlayerImpact(Player player)
     {
-        player.DecreaseHealth(_damageAmount);
-
+        if (player.IsInvincible) return;
+        
+        player.GetComponent<IDamageable>().OnDamage(_damageAmount);
     }
 
     private void ImpactFeedback()
