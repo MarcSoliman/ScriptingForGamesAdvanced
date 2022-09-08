@@ -17,8 +17,18 @@ public class Projectile : MonoBehaviour
     protected GameObject _parentGameObj;
 
 
+    private void Awake()
+    {
+        AudioHelper.PlayClip2D(_shootAudio, 1);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        IDamageable damageable = collision.collider.GetComponent<IDamageable>();
+        damageable?.OnDamage(_damage);
+
+        AudioHelper.PlayClip2D(_impactAudio, 1);
+        Instantiate(_impactParticle, transform.position, Quaternion.identity);
         gameObject.SetActive(false);
     }
 }

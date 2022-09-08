@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _forceFactor: 10
-  _damage: 50
-  _impactParticle: {fileID: 0}
-  _shootAudio: {fileID: 0}
-  _impactAudio: {fileID: 0}
+  _damage: 1
+  _impactParticle: {fileID: 1309825287306229188, guid: 5d648094abface6438fc2a38ccb21e43, type: 3}
+  _shootAudio: {fileID: 8300000, guid: b0aa2e8ac9f065140acdf641e3a287fa, type: 3}
+  _impactAudio: {fileID: 8300000, guid: 83db03dd943bb394388581d68f45c796, type: 3}
