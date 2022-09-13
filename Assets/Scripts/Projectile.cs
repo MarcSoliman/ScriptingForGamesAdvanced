@@ -11,9 +11,12 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _damage = 50;
 
     [SerializeField] private ParticleSystem _impactParticle;
+    [SerializeField] private ParticleSystem _enemyImpactParticle;
 
     [SerializeField] private AudioClip _shootAudio;
     [SerializeField] private AudioClip _impactAudio;
+
+    [SerializeField] private AudioClip _enemyImpactAudio;
     protected GameObject _parentGameObj;
 
 
@@ -27,8 +30,20 @@ public class Projectile : MonoBehaviour
         IDamageable damageable = collision.collider.GetComponent<IDamageable>();
         damageable?.OnDamage(_damage);
 
-        AudioHelper.PlayClip2D(_impactAudio, 1);
-        Instantiate(_impactParticle, transform.position, Quaternion.identity);
+        if (collision.gameObject.tag == "Enemy")
+        {
+            AudioHelper.PlayClip2D(_enemyImpactAudio, 1);
+            Instantiate(_enemyImpactParticle, transform.position, Quaternion.identity);
+        }
+
+        else
+        {
+            AudioHelper.PlayClip2D(_impactAudio, 1);
+            Instantiate(_impactParticle, transform.position, Quaternion.identity);
+        }
+
+
         gameObject.SetActive(false);
+
     }
 }
