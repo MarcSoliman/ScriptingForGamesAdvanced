@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1150476115}
   - component: {fileID: 1346618443}
   - component: {fileID: 2717283350628779562}
+  - component: {fileID: 2588747190330749019}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -112,6 +113,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8356973baf042714ca63846ff50a1e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerDetection: {fileID: 0}
+  _lookAtTarget: {fileID: 0}
+  _player: {fileID: 0}
+  _flyHeight: 5
+  _flySpeed: 4
+  _fleeSpeed: 2
+  _followSpeed: 6
+--- !u!114 &2588747190330749019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158667451890247151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41605beb7b7a3544981cc07e95e156ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &149368743814648651

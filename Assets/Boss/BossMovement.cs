@@ -11,7 +11,7 @@ public class BossMovement : MonoBehaviour
     [SerializeField] private LookAtTarget _lookAtTarget;
     [SerializeField] private GameObject _player;
     [SerializeField] private NavMeshPath _path;
-
+    [SerializeField] private RigidNavMeshAgent _rigidNavMeshAgent;
 
 
     [Header("Movement Variables")]
@@ -20,7 +20,7 @@ public class BossMovement : MonoBehaviour
     [SerializeField] private float _fleeSpeed = 2f;
     [SerializeField] private float _followSpeed = 6f;
     private Rigidbody _RB;
-    private float elapsed;
+
     private Transform _targetPosition;
 
     private bool _isFlying = false;
@@ -39,14 +39,14 @@ public class BossMovement : MonoBehaviour
     void Start()
     {
         _path = new NavMeshPath();
-        elapsed = 0.0f;
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
 
-
+        //FollowPlayer();
         FleePlayer();
         //FlyAttackMovement();
     }
@@ -59,26 +59,8 @@ public class BossMovement : MonoBehaviour
         _lookAtTarget.LookAtPlayer(1);
         _targetPosition = _player.transform;
 
-        elapsed += Time.deltaTime;
 
-        if (elapsed > 1.0f)
-        {
-            NavMesh.CalculatePath(transform.position, _targetPosition.position, NavMesh.AllAreas, _path);
-
-            _path.GetCornersNonAlloc(_pathPoints);
-            print(_pathPoints.Length);
-        }
-
-
-        //move to final point of the navmesh path
-        for (int i = 0; i < _pathPoints.Length - 1; i++)
-        {
-            _RB.MovePosition(Vector3.MoveTowards(transform.position, _pathPoints[i], _followSpeed * Time.deltaTime));
-
-            Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.red);
-        }
-
-
+        _rigidNavMeshAgent.RigidNavMove(_targetPosition, _followSpeed);
 
 
     }
@@ -91,25 +73,10 @@ public class BossMovement : MonoBehaviour
 
         var _fleePos = (transform.position - _player.transform.position).normalized * 10f;
 
-        elapsed += Time.deltaTime;
 
 
+        _rigidNavMeshAgent.RigidNavMove(_fleePos, _followSpeed);
 
-        if (elapsed > 1.0f)
-        {
-            NavMesh.CalculatePath(transform.position, _fleePos, NavMesh.AllAreas, _path);
-
-            _path.GetCornersNonAlloc(_pathPoints);
-            print(_pathPoints.Length);
-        }
-
-        //move to final point of the navmesh path
-        for (int i = 0; i < _pathPoints.Length - 1; i++)
-        {
-            _RB.MovePosition(Vector3.MoveTowards(transform.position, _pathPoints[i], _followSpeed * Time.deltaTime));
-
-            //Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.red);
-        }
 
     }
 
