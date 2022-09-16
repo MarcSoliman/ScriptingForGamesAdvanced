@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private AudioClip _impactSound;
 
     private Rigidbody _rb;
-    
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     protected virtual void PlayerImpact(Player player)
     {
         if (player.IsInvincible) return;
-        
+
         player.GetComponent<IDamageable>().OnDamage(_damageAmount);
     }
 
@@ -47,8 +47,8 @@ public class Enemy : MonoBehaviour
         {
             AudioHelper.PlayClip2D(_impactSound, 1f);
         }
-        
-        
+
+
     }
 
     private void FixedUpdate()
@@ -56,8 +56,8 @@ public class Enemy : MonoBehaviour
         Move();
     }
 
-    public void Move()
+    public virtual void Move()
     {
-        
+
     }
 }

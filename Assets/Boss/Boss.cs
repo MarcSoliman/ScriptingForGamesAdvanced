@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BossMovement : MonoBehaviour
+public class Boss : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerDetectionRange _playerDetection;
@@ -12,6 +12,8 @@ public class BossMovement : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private NavMeshPath _path;
     [SerializeField] private RigidNavMeshAgent _rigidNavMeshAgent;
+    [SerializeField] private Health _health;
+    [SerializeField] private Laser _laser;
 
 
     [Header("Movement Variables")]
@@ -25,7 +27,7 @@ public class BossMovement : MonoBehaviour
 
     private bool _isFlying = false;
     private bool _isLanding = false;
-
+    float targetTimer = 10f;
     private Vector3 _landingPosition;
 
     private Vector3[] _pathPoints = new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero };
@@ -33,12 +35,14 @@ public class BossMovement : MonoBehaviour
     private void Awake()
     {
         _RB = GetComponent<Rigidbody>();
+        _health = GetComponent<Health>();
 
     }
     // Start is called before the first frame update
     void Start()
     {
         _path = new NavMeshPath();
+        _laser.gameObject.SetActive(false);
 
     }
 
@@ -46,8 +50,22 @@ public class BossMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        //FollowPlayer();
-        FleePlayer();
+        if (_health.GetHealth > 7)
+        {
+            FollowPlayer();
+        }
+        else
+        {
+            FleePlayer();
+        }
+
+        if (_health.GetHealth < 2)
+        {
+            FlyAttackMovement();
+        }
+
+
+        //FleePlayer();
         //FlyAttackMovement();
     }
 
@@ -55,6 +73,9 @@ public class BossMovement : MonoBehaviour
     {
 
         if (!_playerDetection.PlayerDetected) return;
+
+        _RB.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
+
 
         _lookAtTarget.LookAtPlayer(1);
         _targetPosition = _player.transform;
@@ -78,6 +99,7 @@ public class BossMovement : MonoBehaviour
         _rigidNavMeshAgent.RigidNavMove(_fleePos, _followSpeed);
 
 
+
     }
 
     void FlyAttackMovement()
@@ -85,24 +107,45 @@ public class BossMovement : MonoBehaviour
 
         if (_isLanding) return;
 
-        _isFlying = true;
-        _lookAtTarget.LookDown(1f);
 
 
-        //call Landing() after 5 seconds
-        Invoke(nameof(LandingBegin), 5f);
-    }
+        _laser.gameObject.SetActive(true);
+        _RB.constraints = RigidbodyConstraints.None;
+        _lookAtTarget.LookDown(3f);
 
-    private void LandingBegin()
-    {
-        _isLanding = true;
-        _lookAtTarget.LookAtPlayer(.2f);
+        _targetPosition = _player.transform;
+        _rigidNavMeshAgent.RigidNavHover(_targetPosition, _flySpeed);
 
-        if (transform.position.y <= 0.5f)
+        //add force to rigid body to move it up to 10 y units
+        _RB.velocity = new Vector3(_RB.velocity.x, _flyHeight, _RB.velocity.z);
+
+        _laser.FireLaser();
+
+
+        targetTimer -= Time.deltaTime;
+        if (targetTimer <= 0)
         {
-            _isFlying = false;
+            Land();
+            targetTimer = 5f;
         }
 
 
+
+    }
+
+    private void Land()
+    {
+        _isLanding = true;
+
+        _RB.MoveRotation(Quaternion.Euler(0, 0, 0));
+        _laser.gameObject.SetActive(false);
+
+        targetTimer -= Time.deltaTime;
+        if (targetTimer <= 0)
+        {
+            _isLanding = false;
+            FlyAttackMovement();
+            targetTimer = 10f;
+        }
     }
 }
