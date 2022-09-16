@@ -33,8 +33,9 @@ public class Health : MonoBehaviour, IDamageable
 
     public void Kill()
     {
-        gameObject.SetActive(false);
         KillFeedback();
+        gameObject.SetActive(false);
+
     }
 
 
