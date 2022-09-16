@@ -13,8 +13,11 @@ public class Boss : MonoBehaviour
     [SerializeField] private NavMeshPath _path;
     [SerializeField] private RigidNavMeshAgent _rigidNavMeshAgent;
     [SerializeField] private Health _health;
+    [SerializeField] private GameObject _projectile;
+    [SerializeField] private Transform _projectileSpawner;
+    [SerializeField] private float _projectileForceFactor = 10;
     [SerializeField] private Laser _laser;
-
+    [SerializeField] private AudioSource _laserSound;
     [SerializeField] private GameObject _TearEnemy;
 
 
@@ -36,7 +39,11 @@ public class Boss : MonoBehaviour
     private bool _shouldFlee;
 
     private bool _shouldFly;
-    private bool _shouldCry;
+    private bool _shouldCry = true;
+
+    private bool _shouldShoot = true;
+
+    private Vector3 _originalRotation;
 
     private Vector3[] _pathPoints = new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero };
 
@@ -51,12 +58,14 @@ public class Boss : MonoBehaviour
     {
         _path = new NavMeshPath();
         _laser.gameObject.SetActive(false);
+        _originalRotation = transform.eulerAngles;
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        print(transform.position);
         FollowPlayer();
         FleePlayer();
         FlyAttackMovement();
@@ -93,7 +102,29 @@ public class Boss : MonoBehaviour
 
         _rigidNavMeshAgent.RigidNavMove(_targetPosition, _followSpeed);
 
+        var distanceToPlayer = Vector3.Distance(transform.position, _player.transform.position);
+        if (distanceToPlayer < 30 && _shouldShoot)
+        {
+            StartCoroutine(Shoot(UnityEngine.Random.Range(3, 8)));
 
+        }
+
+
+    }
+
+    //coroutine to run Shoot
+    IEnumerator Shoot(float time)
+    {
+        _shouldShoot = false;
+        yield return new WaitForSeconds(time);
+        ShootProjectile();
+        _shouldShoot = true;
+    }
+
+    private void ShootProjectile()
+    {
+        var instancedProjectile = Instantiate(_projectile, _projectileSpawner.position, Quaternion.identity);
+        instancedProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileForceFactor, ForceMode.Impulse);
     }
 
     void FleePlayer()
@@ -116,8 +147,8 @@ public class Boss : MonoBehaviour
     {
         _shouldCry = false;
         yield return new WaitForSeconds(time);
-        Instantiate(_TearEnemy, new Vector3(transform.position.x - 3f, transform.position.y, transform.position.z - 3f),
-        Quaternion.identity);
+        Instantiate(_TearEnemy, new Vector3(transform.position.x + 5, transform.position.y, transform.position.z + 5), Quaternion.identity);
+
         _shouldCry = true;
     }
 
@@ -136,7 +167,16 @@ public class Boss : MonoBehaviour
         //add force to rigid body to move it up to 10 y units
         _RB.velocity = new Vector3(_RB.velocity.x, _flyHeight, _RB.velocity.z);
 
+        //move transform yp by flyHeight 
+        // transform.position = Vector3.Lerp(transform.position,
+        // (new Vector3(transform.position.x, _flyHeight, transform.position.z)),
+        //  .8f * Time.deltaTime);
+
         _laser.FireLaser();
+        if (!_laserSound.isPlaying)
+        {
+            _laserSound.Play();
+        }
 
         StartCoroutine(LandAfterTime(time: 10f));
     }
@@ -150,13 +190,17 @@ public class Boss : MonoBehaviour
 
     private void Land()
     {
+        if (_laserSound.isPlaying)
+        {
+            _laserSound.Stop();
+        }
         _isLanding = true;
         _laser.gameObject.SetActive(false);
         _shouldFollow = true;
+        //set trotation to original rotation
+        transform.eulerAngles = _originalRotation;
 
         Debug.Log("Landing");
-
-
     }
 
 
