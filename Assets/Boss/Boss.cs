@@ -56,17 +56,8 @@ public class Boss : MonoBehaviour
         }
         else
         {
-            FleePlayer();
-        }
-
-        if (_health.GetHealth < 2)
-        {
             FlyAttackMovement();
         }
-
-
-        //FleePlayer();
-        //FlyAttackMovement();
     }
 
     void FollowPlayer()
@@ -125,8 +116,9 @@ public class Boss : MonoBehaviour
         targetTimer -= Time.deltaTime;
         if (targetTimer <= 0)
         {
+            targetTimer = 20f;
             Land();
-            targetTimer = 5f;
+
         }
 
 
@@ -136,16 +128,15 @@ public class Boss : MonoBehaviour
     private void Land()
     {
         _isLanding = true;
-
-        _RB.MoveRotation(Quaternion.Euler(0, 0, 0));
         _laser.gameObject.SetActive(false);
 
         targetTimer -= Time.deltaTime;
         if (targetTimer <= 0)
         {
             _isLanding = false;
-            FlyAttackMovement();
             targetTimer = 10f;
+            FlyAttackMovement();
+
         }
     }
 }
