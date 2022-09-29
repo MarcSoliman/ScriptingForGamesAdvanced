@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour, IDamageable
 {
@@ -10,6 +11,9 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField] private ParticleSystem _killParticles;
     [SerializeField] private AudioClip _killSound;
 
+    [SerializeField] private UnityEvent _onDamage;
+
+
     public float GetHealth { get { return _health; } }
 
 
@@ -18,10 +22,12 @@ public class Health : MonoBehaviour, IDamageable
         _health -= damage;
         if (_health <= 0)
         {
+            _onDamage?.Invoke();
             Kill();
         }
         else
         {
+            _onDamage?.Invoke();
             DamageFeedback();
         }
     }

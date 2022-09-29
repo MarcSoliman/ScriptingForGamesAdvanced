@@ -6,11 +6,7 @@ public class CamFollowPlayer : MonoBehaviour
 {
     [SerializeField] private Transform _player;
     [SerializeField] private float _offset = 10f;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
 
     // Update is called once per frame
     void LateUpdate()
@@ -21,4 +17,5 @@ public class CamFollowPlayer : MonoBehaviour
         }
 
     }
+
 }
