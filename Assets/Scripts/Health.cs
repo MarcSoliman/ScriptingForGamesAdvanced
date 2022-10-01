@@ -12,6 +12,7 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField] private AudioClip _killSound;
 
     [SerializeField] private UnityEvent _onDamage;
+    [SerializeField] private UnityEvent _onHeal;
 
 
     public float GetHealth { get { return _health; } }
@@ -20,14 +21,14 @@ public class Health : MonoBehaviour, IDamageable
     public void OnDamage(float damage)
     {
         _health -= damage;
+        _onDamage?.Invoke();
         if (_health <= 0)
         {
-            _onDamage?.Invoke();
             Kill();
+
         }
         else
         {
-            _onDamage?.Invoke();
             DamageFeedback();
         }
     }
@@ -35,6 +36,7 @@ public class Health : MonoBehaviour, IDamageable
     public void IncreaseHealth(float healthBonus)
     {
         _health += healthBonus;
+        _onHeal?.Invoke();
     }
 
     public void Kill()

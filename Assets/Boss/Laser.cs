@@ -28,7 +28,7 @@ public class Laser : MonoBehaviour
             _lineRenderer.SetPosition(1, hitinfo.point);
             if (hitinfo.collider.TryGetComponent(out IDamageable damageable))
             {
-                damageable.OnDamage(1);
+                damageable.OnDamage(.1f);
             }
         }
         else
