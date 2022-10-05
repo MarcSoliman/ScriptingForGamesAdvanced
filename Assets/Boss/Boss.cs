@@ -20,6 +20,10 @@ public class Boss : MonoBehaviour
     [SerializeField] private AudioSource _laserSound;
     [SerializeField] private GameObject _TearEnemy;
 
+    [SerializeField] private ParticleSystem _laserBuildUpParticle;
+    [SerializeField] private GameObject _glowingPupil;
+    [SerializeField] private ParticleSystemForceField _particleForceField;
+
 
     [Header("Movement Variables")]
     [SerializeField] private float _flyHeight = 5f;
@@ -42,6 +46,7 @@ public class Boss : MonoBehaviour
     private bool _shouldCry = true;
 
     private bool _shouldShoot = true;
+    private bool _flyBuildupStarted = false;
 
     private Vector3 _originalRotation;
 
@@ -78,7 +83,8 @@ public class Boss : MonoBehaviour
         }
         else if (_health.GetHealth <= 7 && _health.GetHealth > 5)
         {
-            _shouldFly = true;
+            if (_flyBuildupStarted) return;
+            StartCoroutine(ShouldFlyBuildUp(3f));
         }
         else
         {
@@ -87,6 +93,15 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private IEnumerator ShouldFlyBuildUp(float time)
+    {
+        _flyBuildupStarted = true;
+        _glowingPupil.SetActive(true);
+        _laserBuildUpParticle.Play();
+        yield return new WaitForSeconds(time);
+        _laserBuildUpParticle.Stop();
+        _shouldFly = true;
+    }
     void FollowPlayer()
     {
         if (!_shouldFollow) return;
