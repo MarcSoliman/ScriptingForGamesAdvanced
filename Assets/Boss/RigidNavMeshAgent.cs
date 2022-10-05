@@ -100,7 +100,7 @@ public class RigidNavMeshAgent : MonoBehaviour
     {
         var hoverPos = new Vector3(transform.position.x, 0, transform.position.z);
         _line.SetPosition(0, hoverPos);
-        NavMesh.CalculatePath(hoverPos, _targetPosition.position, NavMesh.AllAreas, _path);
+        NavMesh.CalculatePath(hoverPos, new Vector3(_targetPosition.position.x, 0, _targetPosition.position.y), NavMesh.AllAreas, _path);
 
         _path.GetCornersNonAlloc(_pathPoints);
 

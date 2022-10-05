@@ -162,7 +162,7 @@ public class Boss : MonoBehaviour
     {
         _shouldCry = false;
         yield return new WaitForSeconds(time);
-        Instantiate(_TearEnemy, new Vector3(transform.position.x + 5, transform.position.y, transform.position.z + 5), Quaternion.identity);
+        Instantiate(_TearEnemy, new Vector3(transform.position.x + 5, 0, transform.position.z + 5), Quaternion.identity);
 
         _shouldCry = true;
     }
@@ -174,7 +174,7 @@ public class Boss : MonoBehaviour
 
         _laser.gameObject.SetActive(true);
         _RB.constraints = RigidbodyConstraints.None;
-        _lookAtTarget.LookDown(3f);
+        _lookAtTarget.LookAtPlayer(1f);
 
         _targetPosition = _player.transform;
         _rigidNavMeshAgent.RigidNavHover(_targetPosition, _flySpeed);

@@ -38,6 +38,8 @@ public class Laser : MonoBehaviour
 
         _lineRenderer.SetPosition(0, laserStart.position);
 
+        print("test");
+
 
     }
 }
