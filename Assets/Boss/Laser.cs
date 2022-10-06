@@ -11,6 +11,7 @@ public class Laser : MonoBehaviour
     [SerializeField] private float laserDuration = 2f;
     [SerializeField] private LayerMask _layermask;
 
+    [SerializeField] private ParticleSystem _contactParticles;
     private LineRenderer _lineRenderer;
 
     void Awake()
@@ -30,6 +31,7 @@ public class Laser : MonoBehaviour
             {
                 damageable.OnDamage(.1f);
             }
+            ContactFeedback(hitinfo.point);
         }
         else
         {
@@ -42,4 +44,16 @@ public class Laser : MonoBehaviour
 
 
     }
+
+
+    private void ContactFeedback(Vector3 hitpoint)
+    {
+        //particles
+        if (_contactParticles != null)
+        {
+            _contactParticles = Instantiate(_contactParticles, hitpoint, Quaternion.identity);
+        }
+
+    }
+
 }

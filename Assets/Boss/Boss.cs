@@ -51,6 +51,7 @@ public class Boss : MonoBehaviour
     private Vector3 _originalRotation;
 
     private Vector3[] _pathPoints = new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero };
+    private bool _canNowFlee;
 
     private void Awake()
     {
@@ -88,7 +89,9 @@ public class Boss : MonoBehaviour
         }
         else
         {
+            if (!_canNowFlee) return;
             _shouldFly = false;
+
             _shouldFlee = true;
         }
     }
@@ -201,6 +204,7 @@ public class Boss : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         Land();
+        _canNowFlee = true;
     }
 
     private void Land()
