@@ -13,17 +13,21 @@ public class Health : MonoBehaviour, IDamageable
 
     [SerializeField] private UnityEvent _onDamage;
     [SerializeField] private UnityEvent _onHeal;
+    [SerializeField] private UnityEvent _onDeath;
+
+    private bool _isDead = false;
 
 
     public float GetHealth { get { return _health; } }
 
-
+    //unpause on awake
     public void OnDamage(float damage)
     {
         _health -= damage;
         _onDamage?.Invoke();
         if (_health <= 0)
         {
+            if (_isDead) return;
             Kill();
 
         }
@@ -43,6 +47,7 @@ public class Health : MonoBehaviour, IDamageable
     {
         KillFeedback();
         gameObject.SetActive(false);
+        _onDeath?.Invoke();
 
     }
 
