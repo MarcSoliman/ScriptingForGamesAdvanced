@@ -1,26 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerDetectionRange : MonoBehaviour
 {
     private bool _playerDetected = false;
     public bool PlayerDetected { get { return _playerDetected; } }
+    [SerializeField] UnityEvent playerDetected;
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player") _playerDetected = true;
-        print("Player is now detected");
+        if (other.tag == "Player")
+        {
+            _playerDetected = true;
+            playerDetected?.Invoke();
+        }
+
     }
 }

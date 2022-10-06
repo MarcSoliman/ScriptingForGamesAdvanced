@@ -154,7 +154,7 @@ public class Boss : MonoBehaviour
     void FleePlayer()
     {
         if (!_shouldFlee) return;
-        _lookAtTarget.LookAtPlayer(.1f);
+        _lookAtTarget.LookAtPlayer(1f);
 
         if (!_playerDetection.PlayerDetected) return;
 
@@ -163,7 +163,7 @@ public class Boss : MonoBehaviour
         _rigidNavMeshAgent.RigidNavMove(_fleePos, _followSpeed);
 
         if (!_shouldCry) return;
-        StartCoroutine(ShedTear(4));
+        StartCoroutine(ShedTear(5));
 
     }
 
@@ -171,7 +171,9 @@ public class Boss : MonoBehaviour
     {
         _shouldCry = false;
         yield return new WaitForSeconds(time);
-        Instantiate(_TearEnemy, new Vector3(transform.position.x + 5, 0, transform.position.z + 5), Quaternion.identity);
+
+        var randomFloat = UnityEngine.Random.Range(3, 5);
+        Instantiate(_TearEnemy, new Vector3(transform.position.x + randomFloat, 0, transform.position.z + randomFloat), Quaternion.identity);
 
         _shouldCry = true;
     }

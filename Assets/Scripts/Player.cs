@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private UnityEvent enteredCamTriggerFar, enteredCamTriggerNear, leftCamTrigger;
     private bool _isInvincible = false;
 
     public bool IsInvincible
@@ -22,34 +24,26 @@ public class Player : MonoBehaviour
     }
 
 
-    //replaced logic below with an interface : IDamageable
-    
-    // public void IncreaseHealth(int amount)
-    // {
-    //     _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
-    //     _currentHealth += amount;
-    //     Debug.Log("Player's health: " + _currentHealth);
-    // }
-    
-    // public void DecreaseHealth(int amount)
-    // {
-    //     if (IsInvincible) return;
-    //     
-    //     _currentHealth -= amount;
-    //     Debug.Log("Player's health: " + _currentHealth);
-    //
-    //     if (_currentHealth <= 0 )
-    //     {
-    //         Kill();
-    //     }
-    // }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("OffsetTriggerFar"))
+        {
+            enteredCamTriggerFar?.Invoke();
+        }
 
-    // public void Kill()
-    // {
-    //     if (IsInvincible) return;
-    //     
-    //     gameObject.SetActive(false);
-    //     // play particles
-    //     // play sounds
-    // }
+        if (other.CompareTag("OffsetTriggerNear"))
+        {
+            enteredCamTriggerNear?.Invoke();
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("OffsetTriggerFar") || other.CompareTag("OffsetTriggerNear"))
+        {
+            leftCamTrigger?.Invoke();
+        }
+    }
+
 }
