@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Boss : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class Boss : MonoBehaviour
     [SerializeField] private float _flySpeed = 4f;
     [SerializeField] private float _fleeSpeed = 2f;
     [SerializeField] private float _followSpeed = 6f;
+
+    [Header("Camera Change")]
+    [SerializeField] private UnityEvent _flyingStarted, _flyingEnded;
     private Rigidbody _RB;
 
     private Transform _targetPosition;
@@ -75,6 +79,8 @@ public class Boss : MonoBehaviour
         FollowPlayer();
         FleePlayer();
         FlyAttackMovement();
+
+
 
         if (_health.GetHealth > 7)
         {
@@ -184,6 +190,7 @@ public class Boss : MonoBehaviour
 
         //add force to rigid body to move it up to 10 y units
         _RB.velocity = new Vector3(_RB.velocity.x, _flyHeight, _RB.velocity.z);
+        _flyingStarted.Invoke();
 
         //move transform yp by flyHeight 
         // transform.position = Vector3.Lerp(transform.position,
@@ -205,6 +212,7 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(time);
         Land();
         _canNowFlee = true;
+        _flyingEnded.Invoke();
     }
 
     private void Land()
